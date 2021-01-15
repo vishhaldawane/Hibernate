@@ -1,0 +1,761 @@
+
+	Angular HTML CSS JS - UI
+	5 days with Hibernate - DB
+	6 days with Spring - BL - service layer
+	8 days with PG
+
+	
+
+			who
+			|Role? DB,Java,Tester,Deploy,maintain
+		---------------------
+		|		|
+		where		when
+		|space		|time 2021 Jan14,15,16,17...PG
+	-------------------------------------
+	|		|		|
+	why		what		how
+	Reason		in->FORMation	|method
+				-----------------
+				|		|
+				success		feedback
+
+	unmanifested ---> manifested
+	knowledge ->implement->wisdom
+	word "water"		
+	is not water
+
+
+
+	Hibernate
+
+		e1		Employee	emp table
+		|		|		|
+		|		int empno	eno number;
+		Java	Table	 	|
+		|	|		|
+		Object Relational Mapping 
+			- framework
+
+class Employee
+{
+	int empno;
+
+}
+	We use JDBC code to 
+	store this into a column
+of a table
+
+create table emp
+(
+   eno number;
+);
+
+bean /component 		in angular - ts+html+css
+  |
+Employee e1 = new Employee(7839); <---JAVA OBJECT
+	  |
+	tmp object in JVM
+DM.registerDriver	<=		
+Conn conn = DM.getConnection...		<=
+				   DB TABLE  COLUMN MNGMNT
+PreparedStatement pst = 	    |	      |
+conn.prepareStatement("insert into emp values(?)"); <=/<-
+			query is managed by a developer
+pst.setInt(1,7839);
+int rows = pst.executeUpdate(); <=
+conn.commit();	 <=
+
+	bean (developer) managed "persistence" - BMP
+					|
+				storing java object onto DB
+
+-----------------------------------------------------------
+
+Employee e1 = new Employee(7839); <---JAVA OBJECT
+
+	load the hibernate framework - driver/url/usrname/password
+			which class linked with which tble
+
+	and   session.save(e1);
+		
+-----------------------------------------------------------
+	container managed "persistence" - CMP
+
+
+	Framework - semideveloped application
+
+
+	Entity relationship
+
+	one to one - one user     - one passport
+		     one passport - one user
+
+	one to many	- one user - many addresses
+	many to one	many addresses - one user
+
+	many to many	one user - many projects
+			many projects - one user
+				|
+			many projects - many users
+			many users - many projects
+
+Association 
+isA/hasA/usersA/producesA
+	|
+	class			table
+	|			|
+	Account		 	will u make tables per classes ?
+	|acno,name,bal	 	will u make one table as per this hierarchy?
+	|Address addr; //hasA
+-------------------	 	will u make 2 tables?
+|		|
+Savings		Current
+
+rate		odl
+
+Savings s1 = new Savings(101,"Jack",8000,3.0f);
+Current c1 = new Current(501,"Jane",10000,0.25);
+
+
+------------------------------------------------------------
+account
+	acno	name	bal	
+	101	jack	8000	
+	501	jane	10000	
+
+savings
+	acno	rate
+	101	3.0
+
+current
+	acno	odl
+	501	0.25
+==========================================================
+account
+	acno	name	bal	rate
+	101	jack	8000	3.0
+	501	jane	10000	0.25
+==========================================================
+savings
+	acno	name	bal	rate	area	street	city	state	pin
+	101	jack	8000	3.0
+
+current
+	acno	name	bal	odl	area	street	city	state	pin
+	501	jane	10000	0.25	
+----------------------------------------------
+
+
+class Account
+{
+	int acno;
+	String acname;
+	Address addr = new Address(); //hasA
+
+	withdraw(float amt, int Pin) {//uses amt and pin during
+		//the execution of this method
+	}
+	Statement generateMiniStatement()//producesA
+	{
+		Statement st = new Statement(.......);
+		return st;
+	}
+}
+
+class Savings extends Account // isA
+{
+	float rate; //hasA
+}
+
+class Current extends Account // isA
+{
+
+}
+	12/15	8	8	8	= 32 hours work
+	Ketki Ritik Deepraj Aadish
+
+					x 8 days
+					--------------
+					256  hours of work
+
+		Banking Project
+			|
+	--------------------------------------------
+	|	  |		|		|
+	Account   Login FundTransfer	Statements
+		  Register
+		  Password
+		  TransactionPassword
+		  ForgotPassword
+		  OTP
+		  
+1	db - design
+2	pojo - plain old java object - Employee,Account,Flight, Bus
+3	hibernate
+--------------------------------------------
+4	spring - business service layer
+5	angular ui - layer
+6	validation on forms
+=======================================
+	client
+
+
+
+	
+		
+1. Hibernate framework 
+		- we have got it via pom.xml (maven project)
+			hibernate-core jar
+			oracle jdbc jar
+			junit jar
+2. Database table
+3. Pojo as per the database table 
+4. properties file to describe the details of connection
+	table, pojo etc
+5. client application to link everything
+
+
+1		2	3	   4		5
+Framework	account<==>Account propertyfile	clientCode
+|		|	|		|		|
+pom.xml		table	class	hibernate.properties<---+
+					OR		|
+				hibernate.cfg.xml <-----|
+					Or		|
+				any custom xml file<----|
+
+
+
+what the property file would contain?
+
+	what is the driver
+	what is the database url
+	what is the db user name
+	what is the db user password
+	what is the dialer of the DB - for us it is oracle specific dialer
+			|
+	----------------------------------
+	|	|	|	|	|
+	oracle	mssql	sybase	hssqldb	teradata ....
+	|	 |
+	number	 int
+	varchar2 nvarchar
+number(9,2) 	 float
+
+	what is the table ?
+
+	and so on for few settings
+
+
+
+
+	what is the primary key in the table(pojo)
+
+
+
+=========================================================
+
+
+Ramesh enterprise hardware 
+oracle enterprise edition
+
+domain	 : nature of the DML query would be the same
+banking  :Savings | Current | Fixed | Recurring
+Insurance:Policy|Claim | Premium | Bonus | InsuranceApplication
+airline  :Flight | Ticket | Reservation | FlightList | Address
+
+1.defined in a package | com.lti
+2.public class Savings | Current | Fixed | Recurring
+{
+ 3. private data | accountNumber, accountName, accountBalance
+	+
+  4. public no arg ctor
+    +
+  5 setters / getters | setAcno(int), getAcno()
+			setAcname(String),  getAcname()
+}
+Savings s1 = new Savings(); <-- object / bean 
+
+
+	Hibernate
+		|
+	----------------------
+	|		|
+pure hibernateway	JPA - project
+	|		|
+hibernate.properites	other.....
+Configuration		....
+SessionFactory		...
+Session			...
+Transaction		....
+
+
+
+7 features are missing in the above code
+
+but what if we wrap these 7 features around this
+object? then??????
+
+	this object would be known as 
+	Enterprise Object
+
+Database
+ |  R - table
+ |
+ORM -hibernate -mapping 
+ |
+ |    O - java objects
+Your Java application - developed in spring 
+   |
+------------------
+|   |   |    | | ......
+clients are  here
+
+
+			Java Technology
+			|
+	---------------------------------------
+	|		|		|
+	JSE		JEE		JME
+	|		|		|
+	Core		Enterprise	Micro/Android
+	|		| 7 features
+---------------		-------------------
+|			|		|
+lang fundas		Web		EJB
+OOPS concepts		|		|		
+packages		Servlets	"Enterprise"<= Java Bean/class/object
+exceptions		JSP		|
+threading*		(apache		------------------------
+generics		+tomcat)	|spring	|hibernate   |
+collections			   Session    Entity	  Message | MDB | JavaMail
+file i/o (miniproject)			|=>	|=>		|=>
+jdbc				----------	---------	----------
+|				|	|	|	|	|	|
+Advanced Java		stateless stateful	BMP	CMP	SMS	Mail
+Networking		 functionalies	  insert qry  insert
+RMI					  typed       qry generated
+  "remote method" invocation		  DML
+machine1	machine2	nature of a query - 
+|		|		insert into dept values (???)
+socket1		socket2		insert into emp values (??????)
+JVM1		JVM2		insert into customer values (?????)
+java object	java object
+Savings s1=	how to invoke
+new Savings();	this withdraw
+s1.withdraw();  from here ???
+
+object is here	|  s1;
+
+			
+
+
+
+
+
+
+
+
+
+googledocs - online session attendance
+|
+excel sheet - for daily attendance
+|
+local copy - for local room attendance
+
+
+
+
+	"Entreprise" edition = RC+HA+MT+PR+CR+TM+SM
+
+
+		@Id - for making primary key column
+
+
+
+
+
+Features of Enterprise application 
+---------------------------------------------
+	http://localhost:8080/YourWebProject/index.jsp
+
+1. Remote capability - configure port of apache
+		- networking
+		Machine1->socket1<----->socket2<-Machine2
+			======================== 3 4 5 6 ...
+		Socket s = new Socket();
+
+2. High Availability - HA - 24 X 7 
+
+		Serverside			clientside
+		|				    |
+		clustering 
+		nodemanagermachine
+		|
+		Machine1.1->socket1<----->socket2<-Machine2
+						
+		Machine1.2->socket3<----->socket4<-Machine3
+		Machine1.3->socket5<----->socket6<-Machine4
+		Machine1.4->socket7<----->socket8<-Machine5
+
+3. Multithreading
+		Thread t1 = new Thread(); download
+		Thread t2 = new Thread(); listen music
+		Thread t3 = new Thread(); printing something
+
+
+4. "POOL"ing of resources
+     |
+    a place of commonly used resources
+	papper cups - at a tea/coffie vending machine
+	shopping trolley/carts - are they same?????
+	bag carriers at airport - are they same???
+
+		register / signUp
+
+	bank/hotel/school/coll/office -> reception 1
+					  |
+				------------------------
+				|	|	| 
+				p1	p2	p3
+				p4	p5	p6
+				p7
+
+5. "CACHING" of resources - registering with your primarykey
+
+	you are holding your own tea cup
+	you are holding your own shopping cart
+	you are holding your own baggage carrier trolley 		
+
+		login / signIn
+
+
+	is it required to register on a airline website
+	in order to search flights? - select * from bookingtables....all records
+
+		Mumbai to London - 13-Feb-2021
+
+		"insert into their repository tables"
+				|
+	is it required to "register" on a airline website
+	in order to book flight(s)?
+
+	as a user - r we supposed to type the insert query
+	who will type the query...(developer)
+
+
+		to view the ticket - select query
+		to cancel the ticket - update query
+
+6. Transaction management
+		ACID
+	atomic/consistency/isolation/durable 
+
+	provilac - gir cow A2 milk
+
+7. Security management
+		https -
+		TLS - transport layer security
+
+		
+
+
+
+	M	S	R	D
+		-------->
+		----------------->
+			--------->
+	------------------------>
+
+
+
+
+Entity - what is an entity
+			|
+		identified by the "primary key"
+
+
+	an object can be an enitity
+
+		student object - rollNumber
+		employee object - empNumber
+		flight object - flightNumber
+		policy - policyNumber
+		bus - busId
+		finance  - userid
+		HomeLoan	- loanId
+		and so on....
+
+	insert into students values (101,'Jack',90.60,'A');
+	insert into students values (102,'Jack',90.60,'A');
+	insert into students values (103,'Jack',90.60,'A');
+
+	select * from students where rollno=101	
+
+	update
+	
+	delete
+	
+	nested select query
+	
+	join query..
+
+	and so on....
+		
+
+			Entity management
+				|
+		-------------------------------------
+			|		|
+		manual jdbc code 	automated jdbc code
+
+		old phone		smartphone/wisephone
+		with telephone diary	+ built in telephone
+					diary + searchfeatures
+					update + delete + insert
+					sort + additional detail
+
+			bmp		cmp/hibenrate 
+
+
+
+
+
+
+
+
+
+
+	Hibenrate is an ORM Framework
+
+
+	Object <--> relational mapping
+
+
+	Framework = semi developed application
+
+		Object life cycle management
+		query management
+		transaction management
+		secured way
+
+		Any Java Object in the memory
+				|
+			to store the object 
+				|
+		--------------------------------------
+		|			|
+		1. serialization	2. persistence/ORM
+		|			|
+		file			db-MS <-- O"E"E
+
+		
+Framework = we have to understand the style of the framework
+
+			Collection
+			|
+		------------------------
+		|		|
+		List		Set
+		|duplcates	|unique
+	----------------	-----------------	
+	|		|	|		|
+	ArrayList   LinkedList  TreeSet		HashSet
+	|		|	|		|
+	logs	   contacts	periodicTable	books
+
+MyLog m1 = new MyLog();
+MyLog m2 = new MyLog();
+MyLog m3 = new MyLog();
+
+ArrayList al = new ArrayList();
+al.add(m1);
+al.add(m2);
+al.add(m3);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		Java Persistence API
+			| ORM
+		------------------
+		|		|
+
+
+
+
+
+
+
+CDMA phones by Reliance		anyGSMphone + any network provider
+					MNP
+
+group of people have developed one
+way of storing objects on the DB - persistence solution!!!
+
+	PureHibernateWay	
+	with annotation		
+	|			
+1.	hibernate.properties<-- external text file 
+			|
+		    key = values
+		driver? url? username? password?
+		dialer ??? oracle/sybase/mssql
+
+spring/ringbased  -> pushbutton  -> smartphone -> alexa MG
+
+2.	Configuration - class to load above file
+
+	Database <-->  Hibernate 
+
+3.	SessionFactory - to use the cfg
+
+	Session
+	|
+-----------------------------------------------
+|	|	  |	   |		|
+save(a)	get(101) update(a) delete(a)	HQL  "from Account"
+|	|	 |	    |		|
+insert	select  update	   delete  custom queries
+
+AccountDAO + AccountDAOImpl
+
+
+
+	For a simple ORM based application
+
+	1. Database - table structure 
+	2. POJO - Account | package | private | ctr | set/get
+	3. Hibernate libraries (jar files) - via - pom.xml
+	4. hibernate.properties file 
+	5. Test Application - 
+	Configuration/SessionFactory/Session/Transaction
+
+
+
+
+
+
+
+
+
+
+
+
+	For a simple ORM JPA based application
+
+	1. Database 
+	2. POJO - Account
+	3. Hibernate libraries (jar files) - via - pom.xml
+	4. META-INF/persistence.xml file 
+	5. Test Application 
+	MetaData/EntityManagerFactory/EntityManager/
+	EntityTransaction
+
+1,2,3 specification
+4     implementation
+
+1								Instrument
+								| use();
+			------------------------------------------------------------------------------------------
+			|										|
+2		MusicalInstrument								MedicalInstrument
+			|play();									|operate();
+			|										|
+		----------------------------------------------------------		------------------------------------------------
+		|						|				|			|
+3	StringBasedMusicalInstrument			AirBasedMusicalInstrument	SurgicalMedicalInstrument	PathalogicalMedicalInstrument
+			|tuneStrings(); //abstract		|blowAir();				|steralize();		|reader()
+	-----------------------------------		---------------------------------	    -----------------	---------------------
+	|		|		|		|		|		|	    |	   |	 |	|	|	 |
+4	Guitar		Sitar		Violin		Flute		MO	    Shehnai	   Needle Cutter Sci   CTScanner MRIScanner ECGMachine
+	|		|		|		|		|		|             |      |   |
+Excl.	pluck(){}	ting(){}	bowing(){}	opeSixTunes(){} slide(){} opeFourTunes(){}  poke(){} lineCut(){}    scan(){}  carbonMScan(){}  heartB(){}
+SBMI	tuneStrings(){} tuneStrings(){} tuneStrings(){} blowAir();	blowAir();   blowAir();	    operate() ...........operate()....operate()...
+MI	play(){}	play(){}	play(){}	play(){}	play(){}	play(){}    steralize(); ........   reader() ............
+I	use(){}		use(){}		use(){}		use(){}		use(){}		use(){}     use(){} use(){} use(){} use(){} use(){} use(){}
+-------------------------------------------------------
+	|
+	ElectronicGuitar
+	preset(){}
+		
+
+
+
+		ORM specification
+		|
+	--------------------
+	|		|
+	Hibernate	JPA
+	|		|
+hibernate.props	META-INF/persistence.xml
+Configuration	PersistenceProvider 
+SessionFactory	EntityManagerFactory
+Session		EntityManager
+Transaction	EntityTransaction
+POJO		POJO
+
+
+
+
+
+
+
+
+
+
+
+
+				
+	predefined predicate (function to determine)
+
+"a" <-- is a String 
+
+	TreeSet ts = new TreeSet();
+
+			ts.add("A");
+			ts.add("B");
+			ts.add("G");
+			ts.add(new Student(10,"J");
+
+	Flight and Student
+	|		|
+	flname		stname
+	|		|
+	String		String
+
+class Student implements Comparable<Student>
+{
+	rollno
+	String name;
+
+	int compareTo(Student o) {
+		return name.compareTo(o.name); //-1 0 1
+	}
+}
+
+
+select 
+	account0_.acno as acno1_0_0_, 
+	account0_.acbal as acbal2_0_0_, 
+	account0_.acname as acname3_0_0_ 
+
+	from account account0_
+	
+where account0_.acno=?
+
+
+
+
+
