@@ -1,0 +1,228 @@
+
+Entity Relationships
+			   One PanCard
+				|
+	One to One	- One Citizen - One Adhaar
+				|
+			One Voting Id
+
+=================================================
+
+			   Many Projects
+				|
+	One to Many	- One Customer - Many Cars
+				|
+			   Many Soaps
+
+	Many to One
+=================================================
+
+			    Many Cafe
+				|
+	Many to Many	Many Employees - Many Projects
+				|
+			   Many Clients	
+==================================================
+	
+
+
+	dept
+	emp
+	customer
+	order
+	item
+	product
+	price
+	
+
+
+
+
+
+	Dept
+	--------------
+	10 ACCOUNTING    	20 RESEARCH 		30 SALES	40 OPERATIONS
+DEPT:	pk	|NEW YORK	| DALLAS		| CHICAGO 	| BOSTON
+================|===============|=======================|===============|=====================
+	--------+		|			|		|
+	|7839			|			|		??? NO EMPLOYEE
+EMP:	KING <-PRESIDENT	|			|
+	|5000			|			|
+----------------------------------------------------------
+	|			|			|
+EMP:	|7782			|7566			|7698
+	CLARK <-MANAGER		JONES <-MANAGER		BLAKE <-MANAGER
+	|2450			|2975			|2850
+	|			|			| (pk)
+	|7934			--------------		-----------------------------------
+EMP:	MILLER <-CLERK		|7902	|7788		7654	|7499	|7844	|7521	|7900
+	 1300			FORD	SCOTT<-ANALYST	|MARTIN	ALLEN	TURNER	WARD	JAMES
+				3000	3000		|<---------SALESMAN--------->    CLERK
+				|	|		|1250	1600	1500	1250 <-SAL
+			CLERK->	SMITH	ADAMS<-CLERK	|1400	300	0	500	
+				800	1100		|
+							|
+==================================+---------------------+=====================================
+CUSTOMER :			  |
+				REPID : 7654 <-(fk)
+              	        CUSTID 102 VOLLYRITE
+				| ADDRESS: 9722 HAMILTON
+				| CITY : BURLINGAME
+				| CREDITLIMIT : 7000
+				| PHONE : 644-3341
+				| REPID : 7654 <-(fk)
+================================-------------+======================================
+			                     |
+ORD :	 	ORDID	ORDERDATE  C      CUSTID SHIPDATE     TOTAL
+	  	614     01-FEB-87  NULL   102    05-FEB-87    23940
+=================|================================================================
+ITEM:            |
+	     ORDID     ITEMID     PRODID ACTUALPRICE        QTY    ITEMTOT
+	---------- ---------- ---------- ----------- ---------- ----------
+	       614          1     100860          35        444      15540
+	       614          2     100870         2.8       1000       2800
+	       614          3     100871         5.6       1000       5600
+=================--------------------|==============================================
+		 |
+PRODUCT:	PRODID	DESCRIP
+		100860	ACE TENNIS RACKET I
+		100870	ACE TENNIS BALLS-3 PACK 
+		100871  ACE TENNIS BALLS-6 PACK
+===================================================================================
+PRICE:		PRODID   STDPRICE   MINPRICE STARTDATE ENDDATE
+		100860         30         24 01-JAN-85 31-DEC-85
+		100860         32       25.6 01-JAN-86 31-MAY-86
+		100860         35         28 01-JUN-86	
+===================================================================================
+		
+
+
+
+      
+
+
+
+
+
+
+
+ EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+
+
+
+
+DepartmentDAOImpl	EmployeeDAOImpl			CustomerDAOImpl	  OrderDAOImpl					ItemDAOImpl
+	|		|			                 |		|				      		|
+	|	Persistence.createEntityManagerFactory("MyJPA"); |	 Persistence.createEntityManagerFactory("MyJPA"); 	|
+	|							 |								|
+Persistence.createEntityManagerFactory("MyJPA"); Persistence.createEntityManagerFactory("MyJPA"); 		Persistence.createEntityManagerFactory("MyJPA");
+addDepartment		addEmployee			addCustomer		addOrder				addItem
+  persist(d);		persist(e)			persist(c)		persist(o)				persist(i)
+  merge(d)		merge(e)			merge(c)		merge					merge(i)
+  delete		delete				delete			delete					delete	
+  find			find				find			find					find
+  hql			hql				hql			hql					hql
+selectDepart		..				...			...					...
+
+
+
+
+			    BaseDAO<====JPAUtils
+				|static function -> Persistence.createEntityManagerFactory("MyJPA");
+				|persist(d/e/c/o/i); <--it should be generic function <T>
+	---------------------------------------------------------------------------------------
+	|		|			|			|		|
+DepartmentDAOImpl	EmployeeDAOImpl		CustomerDAOImpl	  OrderDAOImpl		ItemDAOImpl
+
+
+		class MyBag<Laptop>
+		{
+			add(Laptop l) { }
+		}
+
+		class Sag<T>
+		{
+			add() { }
+		}
+
+		Sag s = new Sag();
+		s.add();
+	
+	eyes -> can see the entire world - eyes cannot see itself - what we need - mirror!!!
+
+	Every instance of an "Object class"
+	got a method called as "Class getClass()"
+	that returns an instance of "class Class" 
+
+class Class <-- is used to hold meta data of any java object (like data dictionary in db)
+
+	every java developer atleast should know these methods "by their names"
+
+
+			Object <-- object is the root of the hierarchy
+			| there are 11 methods
+			|	toString() - string representation of the object
+			|
+			|	hashCode() - unique hashcode of the object (hex)
+			|	equals() - compare 2 objects for equality
+			|
+			|	clone() - clone the object
+			|	finalize - garbage collection
+			|
+			|	wait(),wait(),wait(), notify(), notifyAll() - multithreading
+			|
+			|	getClass() - reflection API
+	-----------------------------------------
+	|	|	 |	|
+	String Throwable System ...	..	..
+
+	
+
+
+
+
+//Employee e = new Employee();
+	
+	public Object find(Object o, Serializable pk) 	
+	{ 
+		EntityManager manager = factory.createEntityManager();
+			EntityTransaction trans = manager.getTransaction();
+			trans.begin();
+			Object e	= manager.find(o.getClass(), pk); // actual persist method is invoked here
+			trans.commit();
+			return e;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
