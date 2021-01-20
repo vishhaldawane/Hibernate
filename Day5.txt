@@ -1,0 +1,108 @@
+
+Account X
+Savings <-
+Current <-
+Fixed   <-
+Credit  <-
+
+		in real banking
+		we log in via a "bank user id" <--> "one pan details"
+		|
+	userid	 : vishhaldawane
+	password : fasfasdf
+
+	dashboard
+		view account details <-- abstract 
+			|
+		----------------------------
+		|	|	|
+		savings	current	fixed <-- real implementations
+		|	|	|
+	--------------	-------	---------------
+	|		|		|
+	123		456		457
+	9820443464	8283737		283734
+	
+
+		Relationships
+
+
+	One 	    To 		One
+
+Account details			Pan details
+	Account			PanCard			
+	|			|
+	acnumber		|
+	name			panNumber
+	accbal			nameOnPan
+				birthdate
+				fathersName
+				issuedBy
+
+TABLE->	ACCOUNT_AND_PAN_DETAILS	
+	accountdetails		pandetails						adhaar_details		voting_card_details		driving_lic_details
+	<------------------>  <----------------------------------------------->			5		5				5
+	PK		       UNIQUE+NN
+	|			|
+cols->	acNum 	bal	name   panNum        nameOnPan    dob    father      issued
+rows->  11	2100	Adesh  AURYD1234F Adesh S Jain 1/12/90 Sumit Jain  Govt. of India
+rows->  22	2200	Reema  RURYE2244T Reema E Shah 2/11/91 Eshwar Shah Govt. of India
+rows->  33	2300	Subin  SUERQ4738W Subin T Wora 3/12/90 Tejas Wora  Govt. of India
+rows->  44	2000	Mitesh MURYE3245Q Mitesh R Modi 4/09/92 Rakesh Modi Govt. of India
+
+
+	select acnum,bal,name from account_and_pan_details where
+	acNum=11
+
+ 11	2100	Adesh  AURYD1234F Adesh S Jain 1/12/90 Sumit Jain  Govt. of India
+
+
+	ACCOUNT					PAN_DETAILS	
+	accountdetails				pandetails
+	<------------------>  			<----------------------------------------------->
+	PK		       			UNIQUE+NN
+	|					|(pk+fk)
+cols->	acNum 	bal	name   			acno	panNum        nameOnPan    dob    father      issued
+rows->  11	2100	Adesh  			33	SUERQ4738W Subin T Wora 3/12/90 Tejas Wora  Govt. of India
+rows->  22	2200	Reema  			11	AURYD1234F Adesh S Jain 1/12/90 Sumit Jain  Govt. of India
+rows->  33	2300	Subin  			44	MURYE3245Q Mitesh R Modi 4/09/92 Rakesh Modi Govt. of India
+rows->  44	2000	Mitesh 			22	RURYE2244T Reema E Shah 2/11/91 Eshwar Shah Govt. of India
+						
+
+	account_details
+	pan_Details
+
+	aadhar_details table!!!
+	voting_card table
+
+	atable
+
+	space and time 
+
+	eager loading 		vs		lazy loading
+
+
+
+
+
+
+	AccountDetail has PanDetails
+	PanDetails    has AccountDetails
+
+	
+logically valid
+	ACCOUNT					PAN_DETAILS	
+	accountdetails				pandetails
+	<------------------>  			<----------------------------------------------->
+	PK		       	FK		PK
+	|			|		|
+cols->	acNum 	bal	name   pan		panNum     nameOnPan    dob      father        issued
+rows->  11	2100	Adesh  AURYD1234F	SUERQ4738W Subin T Wora 3/12/90  Tejas Wora   Govt. of India
+rows->  22	2200	Reema  RURYE2244T	AURYD1234F Adesh S Jain 1/12/90  Sumit Jain   Govt. of India
+rows->  33	2300	Subin  SUERQ4738W 	MURYE3245Q Mitesh R Modi 4/09/92 Rakesh Modi Govt. of India
+rows->  44	2000	Mitesh MURYE3245Q	RURYE2244T Reema E Shah 2/11/91  Eshwar Shah  Govt. of India
+	55	5000	AJAY   MURYE3245Q
+
+	fk CAN HAVE NULL AND DUPLICATES
+	U CAN OVERRIDE THIS
+	WITH UNIQUE +NN 
