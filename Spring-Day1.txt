@@ -1,0 +1,144 @@
+
+
+		Java Technology
+	JSE		JEE		JME	
+			|
+			-----------------
+			|		|
+			WEB		EJB
+			|		|
+			Servlets	-------------------------
+			JSP		|Spring	|hibernate	|
+					Session	Entity		Message
+					|
+			-------------------------
+				|		|
+			Stateless		Stateful
+
+
+						A6   B12  C67   E90  
+		
+						Hotel
+						Kitchen - Chef (DB-table)
+						|
+						DAO
+						|
+			MenuCard		
+			|			|
+			Table1 Table6			FoodServer
+			Table2 Table7
+	You ----------> Table3 <----- OrderTaker
+			Table4 Table8
+			Table5 Table9
+
+	placeOrder(Starters, Main Course, ButterMilk, Bill)	
+
+
+	Spring - framework for DI / Inversion of Control
+	
+
+	Patient <---- Injection <-- injected <-- Doctor
+	|
+	Injection
+	|
+	Injected
+	|
+	Self
+
+			    <----------->
+		Savings s = new Savings(101,"Chetan",50000);
+		s.withdraw(5000);
+		d.deposit(7000);
+
+		Savings src = new Savings(); <---source
+		Savings trg = new Savings(); <---payee
+		FundTransfer ft = new FundTransfer(src,trg); <--
+
+		ft.transfer(5000);
+		
+
+		Container c = something.......
+	   		    <----------->
+		Savings s = c.getBean("somehint1");
+		s.withdraw(5000);
+		d.deposit(7000);
+
+		Savings src = c.getBean("somehint2");
+		Savings trg = c.getBean("somehint3");
+		FundTransfer ft = c.getBean("somehint4");
+		ft.transfer(5000);
+
+	Rose r = FlowerGarden.purchase("valentine");
+
+
+
+		class A { 
+			B bRef;
+
+			A(B b) { bRef = b; }
+
+			foo() { b.far(); }			
+		}
+		class B {
+			far() { }
+		}
+		class c { 
+			fun() { }	
+		}
+
+
+
+
+
+
+1	Spring Framework Libraries
+		|
+		pom.xml <--maven project
+
+
+2. 	classes / pojos/ repositories / services 
+
+3.	spring xml file - configuration of the beans | annotation
+
+4.	test class
+
+
+		Enterprise Features
+
+	1. Container management 
+	2. life cycle management
+	3. threading
+	4. remoting
+	5. pool of resource
+	6. cache of resource
+	7. transaction manager <- pipe gas connection/ electricityCabin
+					water supply
+	8. security manager <- AOP <-- security at our building
+
+
+
+
+			Public Bus Transport
+				|
+				Bus ( 30 seaters )
+	     TicketConductor		Seat/Ticket
+		|			|
+	SignletonInstance		PrototypeInstance
+		|			|		
+		Kitchen		  MasterBedRoom1, BedRoom2, BedRoom3
+		Hall			|		|	|	
+		Shared WashRoom		washroom	
+
+
+				Company
+				|
+		--------------------------------------
+		|				|
+		Receptionist		-------------------------
+		|			|	|	|	|
+	enquires placed here	     Cubicle1 Cubicle2 Cubicle3 Cubicle4 
+	|	|	|	|	.. .. ..Cubicle100
+	p1	p2	p3	p4
+
+
+				
