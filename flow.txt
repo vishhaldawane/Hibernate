@@ -1,0 +1,178 @@
+1. TABLE
+=============================================================
+			"SecuredQuestion" <-- Table
+			PK		
+			|
+			questionid	question
+			1		Fav Color?
+			2		First School Name?
+			3		Fav Sport?
+User Details
+	
+		"Registration" (signUp) <-- Table
+			|
+	-----------------------------------------------
+		|1	|2	|3	|4	|5(FK)	 6	
+	emailAddress  password address	age  secQueId secAns<--- personal details for registration
+	raj@gmail.com  123      WestAve  20      1	     Pink
+	ram@gmail.com  223      EAstAve  21      2	     Bharati Vidyapeeth
+	jack@gmail.com 423      SouthAve 22      3	     FootBall
+	jane@gmail.com 523      NorthAve 23      1	     Yellow
+	julie@gmail.com 623     SEAve    24      2	     Rajeev International School
+	peter@gmail.com 663     EEAve    25      2	     Sanjeev International School
+	robert@gmail.com 823    NEAve    21      2	     Rahul International School
+	steve@gmail.com 923     EWAve    20      2	     Sonia  International School
+
+	   |		|
+	   --------------
+		| (signIn) + ForgotPassword / ResetPassword
+	Login Details
+
+				Finance Insurance Banking  Airline  FarmersBidders HomeLoan
+2. POJO 
+=============================================================
+class Registration
+{
+	String emailAddress;
+	String password 
+	String address	
+	int age  
+
+	@JoinColumn(name="secQueId")//FK
+	SecuredQuestion securedQuestion; //it is an object of SecuredQuestion data type
+
+	String secAns;
+
+	getSecuredQuestion() { return securedQuestion; }
+	setSecuredQuestion(SecuiredQuestion sq) { securedQuestion = sq; }
+}
+
+class SecuredQuestion
+{
+	int questionid;
+	String question;
+	get/set
+}
+=============================================================
+3. DAO LAYER - Repository Layer
+Akshay 
+	interface RegistrationRepository
+	{
+		void registerUser(Registration reg);
+		Registration getRegisterUser(String emailAddress);
+	}
+	class  RegistrationRepositoryImpl implements RegistrationRepository
+	{	//code with BaseDAO
+		void registerUser(Registration reg) { EM.persist() }
+		Registration getRegisterUser(String emailAddress) { EM.find() }
+	}
+
+Sai Janardhan
+	interface SecuredQuestionRepository
+	{
+		List<SecuredQuestion> getAllQuestions(); //can u used by Angular popup
+						//during user registration to show all questions
+		SecuredQuestion getQuestion(String emailAddress);
+	}
+	class SecuredQuestionRepositoryImpl extends SecuredQuestionRepository
+	{
+		List<SecuredQuestion> getAllQuestions() {  HQL to return the list }
+		SecuredQuestion getQuestion(String emailAddress) { HQL }
+	}
+
+
+
+ONCE DAO IS READY - perform TEST CASES 
+
+	@Test 
+	forgotPassword() { }
+
+	@Test
+	registerUser() { }
+
+	@Test
+	forgotPassword() { }
+
+	@Test
+	loginTestCase() { }
+
+	@Test
+	updateAge() { }
+
+	@Test
+	updateAddress() { }
+
+	@Test
+	resetPassword() { }
+	
+
+=========================================================================
+
+
+
+4. Service Layer
+
+	interface UserRegistrationService
+	{
+		void registerUserService(Registration regs);
+		Register getRegisteredUserService(String emailAddress); 
+	}
+	class UserRegistrationService implements UserRegistrationService
+	{
+		@Autowired
+		RegistrationRepository regRepo;
+
+		@Autowired
+		SecuredQuestionRepository secQueRepo;
+
+		void registerUserService(Registration regs) {
+
+			//some business decisions 
+			//if regs.getAge() < 18
+				cant register
+			// if regs.getAddress().length() <10
+				cant register
+			// if regs.getPassword().length < 8
+				cant register
+
+			regRepo.registerUser(regs);// invoke repo to store it in DB
+		}
+		void forgotPassword(String email) //julie@gmail.com
+		{
+			//we have to find out securedquestion of this email (julie@gmail.com)
+			Registration   reg = regRepo.getRegisterUser(email);
+			SecuredQuestion sq = reg.getSecuredQuestion();
+			String         que = sq.getQuestion();
+			reg.getSecuredAnswer() . equals 
+		}
+	}
+
+=========================================================================
+5. Controller 
+
+@RestController
+@CrossOrigin
+class MyController
+{
+	@Autowired
+	UserRegistrationService userRegSer;
+
+	@PostMapping(path="/register")
+	public String registerUser(@RequestBody Registration reg)
+	{
+		userRegSer.registerUserService(reg);
+	}	
+}
+====================================
+6. Angular
+
+	UserService/SecurityQuestionService (httpservice)
+		|
+	UserRegistrationComponent 	ts	html	css	
+						|
+			------------------------------------------------------------------
+				|	|	|	|     |				|
+			EnterEmail  Password  Addresss Age  SelectSecuredQuestion	Answer
+
+
+
